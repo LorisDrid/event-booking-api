@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: event-booking-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/event_booking
+    username: event_booking
+    password: event_booking
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
