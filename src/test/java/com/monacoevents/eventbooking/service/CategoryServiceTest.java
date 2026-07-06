@@ -11,6 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,16 +76,18 @@ class CategoryServiceTest {
     }
 
     @Test
-    void findAllReturnsMappedList() {
+    void findAllReturnsMappedPage() {
         Category category = Category.builder().id(1L).name("Concert").build();
         CategoryResponse response = new CategoryResponse(1L, "Concert");
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Category> categoryPage = new PageImpl<>(List.of(category), pageable, 1);
 
-        when(categoryRepository.findAll()).thenReturn(List.of(category));
+        when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
         when(categoryMapper.toResponse(category)).thenReturn(response);
 
-        List<CategoryResponse> result = categoryService.findAll();
+        Page<CategoryResponse> result = categoryService.findAll(pageable);
 
-        assertThat(result).containsExactly(response);
+        assertThat(result.getContent()).containsExactly(response);
     }
 
     @Test

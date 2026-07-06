@@ -7,9 +7,9 @@ import com.monacoevents.eventbooking.exception.ResourceNotFoundException;
 import com.monacoevents.eventbooking.mapper.VenueMapper;
 import com.monacoevents.eventbooking.repository.VenueRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +32,8 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<VenueResponse> findAll() {
-        return venueRepository.findAll().stream()
-                .map(venueMapper::toResponse)
-                .toList();
+    public Page<VenueResponse> findAll(Pageable pageable) {
+        return venueRepository.findAll(pageable).map(venueMapper::toResponse);
     }
 
     @Override

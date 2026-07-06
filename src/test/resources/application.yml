@@ -8,3 +8,8 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+  data:
+    web:
+      pageable:
+        serialization-mode: via_dto
+        max-page-size: 100

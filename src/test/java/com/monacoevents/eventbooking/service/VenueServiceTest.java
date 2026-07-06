@@ -11,6 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,16 +80,18 @@ class VenueServiceTest {
     }
 
     @Test
-    void findAllReturnsMappedList() {
+    void findAllReturnsMappedPage() {
         Venue venue = Venue.builder().id(1L).name(NAME).address(ADDRESS).city(CITY).build();
         VenueResponse response = new VenueResponse(1L, NAME, ADDRESS, CITY);
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Venue> venuePage = new PageImpl<>(List.of(venue), pageable, 1);
 
-        when(venueRepository.findAll()).thenReturn(List.of(venue));
+        when(venueRepository.findAll(pageable)).thenReturn(venuePage);
         when(venueMapper.toResponse(venue)).thenReturn(response);
 
-        List<VenueResponse> result = venueService.findAll();
+        Page<VenueResponse> result = venueService.findAll(pageable);
 
-        assertThat(result).containsExactly(response);
+        assertThat(result.getContent()).containsExactly(response);
     }
 
     @Test

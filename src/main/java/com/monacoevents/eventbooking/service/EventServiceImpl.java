@@ -11,9 +11,9 @@ import com.monacoevents.eventbooking.repository.CategoryRepository;
 import com.monacoevents.eventbooking.repository.EventRepository;
 import com.monacoevents.eventbooking.repository.VenueRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,10 +38,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventResponse> findAll() {
-        return eventRepository.findAll().stream()
-                .map(eventMapper::toResponse)
-                .toList();
+    public Page<EventResponse> findAll(Pageable pageable) {
+        return eventRepository.findAll(pageable).map(eventMapper::toResponse);
     }
 
     @Override

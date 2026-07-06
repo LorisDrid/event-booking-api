@@ -15,9 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,6 +103,21 @@ class EventServiceTest {
                 .isInstanceOf(ResourceNotFoundException.class);
 
         verify(eventRepository, never()).save(any());
+    }
+
+    @Test
+    void findAllReturnsMappedPage() {
+        Event event = Event.builder().id(10L).title("Jazz Night").build();
+        EventResponse response = new EventResponse(10L, "Jazz Night", null, null, 500, new BigDecimal("45.00"), null, null);
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Event> eventPage = new PageImpl<>(List.of(event), pageable, 1);
+
+        when(eventRepository.findAll(pageable)).thenReturn(eventPage);
+        when(eventMapper.toResponse(event)).thenReturn(response);
+
+        Page<EventResponse> result = eventService.findAll(pageable);
+
+        assertThat(result.getContent()).containsExactly(response);
     }
 
     @Test

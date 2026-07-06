@@ -9,11 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -67,12 +71,13 @@ class CategoryControllerTest {
     }
 
     @Test
-    void findAllReturnsList() throws Exception {
-        when(categoryService.findAll()).thenReturn(List.of(new CategoryResponse(1L, "Concert")));
+    void findAllReturnsPage() throws Exception {
+        Page<CategoryResponse> page = new PageImpl<>(List.of(new CategoryResponse(1L, "Concert")), PageRequest.of(0, 20), 1);
+        when(categoryService.findAll(any())).thenReturn(page);
 
         mockMvc.perform(get("/api/categories"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Concert"));
+                .andExpect(jsonPath("$.content[0].name").value("Concert"));
     }
 
     @Test

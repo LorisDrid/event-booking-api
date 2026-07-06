@@ -7,9 +7,9 @@ import com.monacoevents.eventbooking.exception.ResourceNotFoundException;
 import com.monacoevents.eventbooking.mapper.CategoryMapper;
 import com.monacoevents.eventbooking.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponse> findAll() {
-        return categoryRepository.findAll().stream()
-                .map(categoryMapper::toResponse)
-                .toList();
+    public Page<CategoryResponse> findAll(Pageable pageable) {
+        return categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
     }
 
     @Override

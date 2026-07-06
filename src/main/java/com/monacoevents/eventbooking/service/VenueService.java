@@ -2,8 +2,8 @@ package com.monacoevents.eventbooking.service;
 
 import com.monacoevents.eventbooking.dto.VenueRequest;
 import com.monacoevents.eventbooking.dto.VenueResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface VenueService {
 
@@ -11,7 +11,7 @@ public interface VenueService {
 
     VenueResponse findById(Long id);
 
-    List<VenueResponse> findAll();
+    Page<VenueResponse> findAll(Pageable pageable);
 
     VenueResponse update(Long id, VenueRequest request);
 

@@ -2,8 +2,8 @@ package com.monacoevents.eventbooking.service;
 
 import com.monacoevents.eventbooking.dto.EventRequest;
 import com.monacoevents.eventbooking.dto.EventResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface EventService {
 
@@ -11,7 +11,7 @@ public interface EventService {
 
     EventResponse findById(Long id);
 
-    List<EventResponse> findAll();
+    Page<EventResponse> findAll(Pageable pageable);
 
     EventResponse update(Long id, EventRequest request);
 

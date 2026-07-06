@@ -12,6 +12,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    web:
+      pageable:
+        serialization-mode: via_dto
+        max-page-size: 100
 
 server:
   port: 8080

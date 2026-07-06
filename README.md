@@ -16,10 +16,9 @@ This is a personal portfolio project built to demonstrate Java/Spring Boot backe
 
 ## Current state
 
-- Core entities (`Event`, `Venue`, `Category`) and repositories
-- DTOs and MapStruct mappers for `Event`, `Venue`, `Category`
+Full CRUD REST API for `Category`, `Venue`, and `Event`: entities/repositories, DTOs with MapStruct mappers, service layer, controllers, centralized error handling, Bean Validation, pagination/sorting on list endpoints, and Swagger documentation.
 
-Not yet implemented: REST controllers, service layer, authentication, and everything under the "advanced" milestones (concurrency, search, caching, async, CI/CD).
+Not yet implemented: `Booking` (reservations), authentication, and everything under the "advanced" milestones (concurrency, search, caching, async, CI/CD).
 
 ## Running locally
 

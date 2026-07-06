@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/venues")
@@ -43,8 +44,8 @@ public class VenueController {
 
     @GetMapping
     @Operation(summary = "List all venues")
-    public ResponseEntity<List<VenueResponse>> findAll() {
-        return ResponseEntity.ok(venueService.findAll());
+    public ResponseEntity<Page<VenueResponse>> findAll(@PageableDefault(size = 20, sort = "name") Pageable pageable) {
+        return ResponseEntity.ok(venueService.findAll(pageable));
     }
 
     @PutMapping("/{id}")
