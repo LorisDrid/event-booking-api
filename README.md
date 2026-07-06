@@ -27,3 +27,11 @@ Not yet implemented: REST controllers, service layer, authentication, and everyt
 docker compose up -d      # starts PostgreSQL
 ./mvnw spring-boot:run
 ```
+
+## Architecture diagrams
+
+`docs/uml/` contains UML class/package diagrams generated directly from the source code (not hand-maintained, so they can't drift out of sync). Regenerate after any structural change:
+
+```bash
+./mvnw -P uml javadoc:javadoc
+```
