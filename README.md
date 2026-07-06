@@ -26,13 +26,3 @@ Not yet implemented: `Booking` (reservations), authentication, and everything un
 docker compose up -d      # starts PostgreSQL
 ./mvnw spring-boot:run
 ```
-
-## Architecture diagrams
-
-`docs/uml/` contains UML class/package diagrams generated directly from the source code (not hand-maintained, so they can't drift out of sync). Regenerate after any structural change:
-
-```bash
-./mvnw -P uml process-resources
-```
-
-Requires [Graphviz](https://graphviz.org/download/) (the `dot` layout engine) on the `PATH`, or the `GRAPHVIZ_DOT` environment variable pointing to `dot.exe` — without it, PlantUML falls back to a lower-quality built-in layout.
